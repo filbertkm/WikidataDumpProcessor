@@ -1,0 +1,13 @@
+{
+  "name": "filbertkm/wikidata-dump-processor",
+  "type": "library",
+  "require": {
+    "doctrine/dbal": "~2.4",
+    "wikibase/internal-serialization": "~1.0"
+  },
+  "autoload": {
+    "psr-4" : {
+      "WikidataDump\\": "src/"
+	}
+  }
+}
