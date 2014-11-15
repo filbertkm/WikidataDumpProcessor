@@ -8,9 +8,9 @@ use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
 use Elastica\Index;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
+use Wikibase\Elastic\Index\DocumentBuilder\StatementDocumentBuilder
 use Wikibase\Elastic\Index\Indexer\EntityBatchIndexer;
 use Wikibase\Elastic\Index\Indexer\EntityIndexer;
-use Wikibase\Elastic\Index\Indexer\StatementDocumentBuilder;
 use Wikibase\Elastic\Logger;
 use Wikibase\InternalSerialization\DeserializerFactory;
 use Wikibase\Repo\Store\SQL\EntityPerPageIdPager;
@@ -18,6 +18,7 @@ use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Utils;
 use Wikibot\Api\Modules\Wikibase\GetEntities;
 use Wikibot\Api\Wikibase\EntityApiLookup;
+use Wikibot\Api\Wikibase\PropertyDataTypeApiLookup;
 use Wikibot\Api\WikibotApi;
 use WikiClient\MediaWiki\ApiClient;
 use WikiClient\MediaWiki\User;
@@ -80,13 +81,13 @@ class WikidataDump {
 		return new EntityApiLookup( $getEntities );
 	}
 
-	private function getWikidataApiClient( User $user ) {
+	private function getWikidataApiClient() {
 		$wiki = new Wiki( 'wikidatawiki', 'https://www.wikidata.org/w/api.php' );
-		return new ApiClient( $wiki, $user );
+		return new ApiClient( $wiki, $GLOBALS['wikidataUser'] );
 	}
 
-	public function getPropertyDataTypeLookup( User $user ) {
-		$client = $this->getWikidataApiClient( $user );
+	public function getPropertyDataTypeLookup() {
+		$client = $this->getWikidataApiClient();
 
 		return new PropertyDataTypeApiLookup(
 			$this->getEntityLookup( $client )
@@ -101,7 +102,7 @@ class WikidataDump {
 
 		$batchIndexer = new EntityBatchIndexer(
 			$index,
-			new StatementDocumentBuilder( $this->getWikibaseRepo()->getPropertyDataTypeLookup() ),
+			new StatementDocumentBuilder( $this->getPropertyDataTypeLookup() ),
 			$this->getEntityDumpLookup(),
 			new Logger(),
 			Utils::getLanguageCodes()
