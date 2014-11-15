@@ -10,6 +10,7 @@ use Elastica\Index;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\Elastic\Index\Indexer\EntityBatchIndexer;
 use Wikibase\Elastic\Index\Indexer\EntityIndexer;
+use Wikibase\Elastic\Index\Indexer\StatementDocumentBuilder;
 use Wikibase\Elastic\Logger;
 use Wikibase\InternalSerialization\DeserializerFactory;
 use Wikibase\Repo\Store\SQL\EntityPerPageIdPager;
@@ -72,6 +73,7 @@ class WikidataDump {
 
 		$batchIndexer = new EntityBatchIndexer(
 			$index,
+			new StatementDocumentBuilder( $this->getWikibaseRepo()->getPropertyDataTypeLookup() ),
 			$this->getEntityDumpLookup(),
 			new Logger(),
 			Utils::getLanguageCodes()
