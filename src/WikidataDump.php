@@ -6,22 +6,15 @@ use DataValues\Deserializers\DataValueDeserializer;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
-use Elastica\Client;
-use Elastica\Index;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
-use Wikibase\Elastic\Connection;
-use Wikibase\Elastic\Dump\EntityDumpLookup;
-use Wikibase\Elastic\Dump\EntityIdDumpPager;
-use Wikibase\Elastic\Index\Indexer\EntityBatchIndexer;
-use Wikibase\Elastic\Index\Indexer\EntityIndexer;
-use Wikibase\Elastic\Index\Indexer\StatementDocumentBuilder;
-use Wikibase\Elastic\Logger;
+use WikidataDump\EntityDumpLookup;
+use WikidataDump\EntityIdDumpPager;
 use Wikibase\InternalSerialization\DeserializerFactory;
 use Wikibase\Repo\Store\SQL\EntityPerPageIdPager;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Utils;
 
-class App {
+class WikidataDump {
 
 	private $internalDeserializer;
 
