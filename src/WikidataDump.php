@@ -7,12 +7,15 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
-use WikidataDump\EntityDumpLookup;
-use WikidataDump\EntityIdDumpPager;
+use Wikibase\Elastic\Index\Indexer\EntityBatchIndexer;
+use Wikibase\Elastic\Index\Indexer\EntityIndexer;
+use Wikibase\Elastic\Logger;
 use Wikibase\InternalSerialization\DeserializerFactory;
 use Wikibase\Repo\Store\SQL\EntityPerPageIdPager;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Utils;
+use WikidataDump\EntityDumpLookup;
+use WikidataDump\EntityIdDumpPager;
 
 class WikidataDump {
 
