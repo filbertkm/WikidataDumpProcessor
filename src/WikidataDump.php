@@ -6,6 +6,7 @@ use DataValues\Deserializers\DataValueDeserializer;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection as DBALConnection;
 use Doctrine\DBAL\DriverManager;
+use Elastica\Index;
 use Wikibase\DataModel\Entity\BasicEntityIdParser;
 use Wikibase\Elastic\Index\Indexer\EntityBatchIndexer;
 use Wikibase\Elastic\Index\Indexer\EntityIndexer;
