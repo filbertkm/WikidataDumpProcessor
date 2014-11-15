@@ -19,7 +19,8 @@
     "doctrine/dbal": "~2.4",
     "wikibase/internal-serialization": "~1.0",
     "wikibase/store": "dev-master",
-    "wikibot/api": "dev-master"
+    "wikibot/api": "dev-master",
+    "wikiclient/wikiclient": "dev-master"
   },
   "minimum-stability": "dev",
   "autoload": {

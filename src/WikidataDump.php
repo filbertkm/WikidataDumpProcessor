@@ -16,6 +16,12 @@ use Wikibase\InternalSerialization\DeserializerFactory;
 use Wikibase\Repo\Store\SQL\EntityPerPageIdPager;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Utils;
+use Wikibot\Api\Modules\Wikibase\GetEntities;
+use Wikibot\Api\Wikibase\EntityApiLookup;
+use Wikibot\Api\WikibotApi;
+use WikiClient\MediaWiki\ApiClient;
+use WikiClient\MediaWiki\User;
+use WikiClient\MediaWiki\Wiki;
 use WikidataDump\EntityDumpLookup;
 use WikidataDump\EntityIdDumpPager;
 
@@ -62,6 +68,28 @@ class WikidataDump {
 		return new EntityDumpLookup(
 			$this->getDBALConnection(),
 			$this->getInternalEntityDeserializer()
+		);
+	}
+
+	public function getEntityLookup( ApiClient $client ) {
+		$getEntities = new GetEntities(
+			$client,
+			WikibotApi::getInstance()->getEntitySerializer()
+		);
+
+		return new EntityApiLookup( $getEntities );
+	}
+
+	private function getWikidataApiClient( User $user ) {
+		$wiki = new Wiki( 'wikidatawiki', 'https://www.wikidata.org/w/api.php' );
+		return new ApiClient( $wiki, $user );
+	}
+
+	public function getPropertyDataTypeLookup( User $user ) {
+		$client = $this->getWikidataApiClient( $user );
+
+		return new PropertyDataTypeApiLookup(
+			$this->getEntityLookup( $client )
 		);
 	}
 
